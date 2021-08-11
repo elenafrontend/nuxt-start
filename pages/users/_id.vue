@@ -1,5 +1,5 @@
 <template>
-  <h1>User {{ id }}</h1>
+  <h1>{{ `User ${user.name}` }}</h1>
 </template>
 
 <script>
@@ -9,10 +9,15 @@ export default {
     return /^\d+$/.test(params.id);
   },
 
-  computed: {
-    id() {
-      return this.$route.params.id;
-    },
+  data () {
+    return {
+      user: {}
+    }
   },
+
+  async created () {
+    const responce = await fetch(`https://jsonplaceholder.typicode.com/users/${this.$route.params.id}`)
+    this.user = await responce.json()
+  }
 };
 </script>
