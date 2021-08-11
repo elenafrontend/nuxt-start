@@ -4,12 +4,11 @@
     <ul>
       <li v-for="user of users" :key="user.id">
         <NuxtLink :to="`/users/${user.id}`">{{ user.name }}</NuxtLink>
-        
       </li>
     </ul>
     
 
-    <div class="slider" v-swiper:mySwiper="swiperOption">
+    <!-- <div class="slider" v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img src="../../assets/img/fff.png" alt="" />
@@ -21,7 +20,8 @@
       <div slot="button-prev" class="swiper-button-prev"></div>
       <div slot="button-next" class="swiper-button-next"></div>
       <div class="swiper-pagination"></div>
-    </div>
+    </div>-->
+
   </div>
 </template>
 
@@ -30,7 +30,6 @@ import SwiperClass, { Navigation, Pagination } from "swiper";
 SwiperClass.use([Navigation, Pagination]);
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/swiper-bundle.css";
-import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -39,6 +38,14 @@ export default {
   },
   directives: {
     swiper: directive,
+  },
+  async asyncData() {
+    const responce = await fetch('https://jsonplaceholder.typicode.com/users')
+    const users = await responce.json()
+
+    return {
+      users
+    }
   },
   data() {
     return {
@@ -58,12 +65,8 @@ export default {
           prevEl: ".swiper-button-prev",
         },
       },
+      users: []
     };
-  },
-  computed: {
-    ...mapGetters({
-      users: 'users/getUsers'
-    })
   }
 };
 </script>
