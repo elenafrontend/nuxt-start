@@ -1,9 +1,15 @@
 <template>
   <div>
     <h1>Users</h1>
-    <NuxtLink to="/users/2">Registration</NuxtLink>
+    <ul>
+      <li v-for="user of users" :key="user.id">
+        <NuxtLink :to="`/users/${user.id}`">{{ user.name }}</NuxtLink>
+        
+      </li>
+    </ul>
+    
 
-    <div v-swiper:mySwiper="swiperOption">
+    <div class="slider" v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img src="../../assets/img/fff.png" alt="" />
@@ -24,6 +30,7 @@ import SwiperClass, { Navigation, Pagination } from "swiper";
 SwiperClass.use([Navigation, Pagination]);
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/swiper-bundle.css";
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -53,5 +60,21 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      users: 'users/getUsers'
+    })
+  }
 };
 </script>
+
+<style scoped>
+  .slider {
+    margin-top: 100px;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
+</style>
