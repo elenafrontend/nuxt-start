@@ -9,15 +9,18 @@ export default {
     return /^\d+$/.test(params.id);
   },
 
+  async asyncData({params}) {
+    const responce = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`)
+    const user = await responce.json()
+    return {
+      user
+    }
+  },
+
   data () {
     return {
       user: {}
     }
   },
-
-  async created () {
-    const responce = await fetch(`https://jsonplaceholder.typicode.com/users/${this.$route.params.id}`)
-    this.user = await responce.json()
-  }
 };
 </script>
